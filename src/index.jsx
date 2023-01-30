@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { createRoot } from 'react-dom/client';
 
 // Import statement to indicate that you need to bundle `./index.scss`
