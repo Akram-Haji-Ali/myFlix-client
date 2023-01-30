@@ -1,10 +1,22 @@
 {
   "name": "myflix-client",
   "version": "1.0.0",
-  "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akram-Haji-Ali/myFlix-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Akram-Haji-Ali/myFlix-client/issues"
+  },
+  "homepage": "https://github.com/Akram-Haji-Ali/myFlix-client#readme",
+  "description": "",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
 }
