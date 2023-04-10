@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { MainView } from "./components/main-view/main-view"; // to remove the curly braces from the MainView , add default keyword to the export in main-view.jsx i.e export default Mainview
-// Import statement to indicate that you need to bundle `./index.scss`
+import { MainView } from "./components/main-view/main-view"; 
+import { MovieCard } from './components/movie-card/movie-card';
 import "./index.scss";
 
 // Main component (will eventually use all the others)
