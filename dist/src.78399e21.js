@@ -28863,7 +28863,33 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"components/movie-card/movie-card.jsx":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"../node_modules/react-dom/client.js":[function(require,module,exports) {
+'use strict';
+
+var m = require('react-dom');
+if ("development" === 'production') {
+  exports.createRoot = m.createRoot;
+  exports.hydrateRoot = m.hydrateRoot;
+} else {
+  var i = m.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+  exports.createRoot = function (c, o) {
+    i.usingClientEntryPoint = true;
+    try {
+      return m.createRoot(c, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
+  exports.hydrateRoot = function (c, h, o) {
+    i.usingClientEntryPoint = true;
+    try {
+      return m.hydrateRoot(c, h, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
+}
+},{"react-dom":"../node_modules/react-dom/index.js"}],"components/movie-card/movie-card.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28984,6 +29010,185 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   return MovieView;
 }(_react.default.Component);
 exports.MovieView = MovieView;
+},{"react":"../node_modules/react/index.js"}],"components/login-view/login-view.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.LoginView = void 0;
+var _react = require("react");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+var LoginView = function LoginView(_ref) {
+  var onLoggedIn = _ref.onLoggedIn;
+  var _useState = (0, _react.useState)(""),
+    _useState2 = _slicedToArray(_useState, 2),
+    username = _useState2[0],
+    setUsername = _useState2[1];
+  var _useState3 = (0, _react.useState)(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    password = _useState4[0],
+    setPassword = _useState4[1];
+
+  // validation of user login
+  var handleSubmit = function handleSubmit(event) {
+    // prevents the default behavior of the form which is to reload the entire page
+    event.preventDefault();
+    var data = {
+      Username: username,
+      Password: password
+    };
+    fetch("https://myflix-bjxg.onrender.com/login", "http://localhost:8080/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    }).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      console.log("Login response:", data);
+      if (data.user) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
+        onLoggedIn(data.user, data.token);
+      } else {
+        alert("No such user");
+      }
+    }).catch(function (e) {
+      alert("Something went wrong");
+    });
+  };
+
+  // login form with submit button
+  return (
+    /*#__PURE__*/
+    // handleSubmit is the callback of onSubmit, tells the login API to validate user and password
+    React.createElement("form", {
+      onSubmit: handleSubmit
+    }, /*#__PURE__*/React.createElement("label", null, "Username:", /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      value: username,
+      onChange: function onChange(e) {
+        return setUsername(e.target.value);
+      },
+      required: true,
+      minLength: "5"
+    })), /*#__PURE__*/React.createElement("label", null, "Password:", /*#__PURE__*/React.createElement("input", {
+      type: "password",
+      value: password,
+      onChange: function onChange(e) {
+        return setPassword(e.target.value);
+      },
+      required: true
+    })), /*#__PURE__*/React.createElement("button", {
+      type: "submit"
+    }, "Submit"))
+  );
+};
+exports.LoginView = LoginView;
+},{"react":"../node_modules/react/index.js"}],"components/signup-view/signup-view.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SignupView = void 0;
+var _react = require("react");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+var SignupView = function SignupView() {
+  var _useState = (0, _react.useState)(""),
+    _useState2 = _slicedToArray(_useState, 2),
+    username = _useState2[0],
+    setUsername = _useState2[1];
+  var _useState3 = (0, _react.useState)(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    password = _useState4[0],
+    setPassword = _useState4[1];
+  var _useState5 = (0, _react.useState)(""),
+    _useState6 = _slicedToArray(_useState5, 2),
+    email = _useState6[0],
+    setEmail = _useState6[1];
+  var _useState7 = (0, _react.useState)(""),
+    _useState8 = _slicedToArray(_useState7, 2),
+    birthday = _useState8[0],
+    setBirthday = _useState8[1];
+
+  // validation of user signup
+  var handleSubmit = function handleSubmit(event) {
+    event.preventDefault();
+    var data = {
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: birthday
+    };
+    fetch("https://myflix-bjxg.onrender.com/login", "http://localhost:8080/login", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function (response) {
+      if (response.ok) {
+        alert("Signup successful");
+        window.location.reload();
+      } else {
+        alert("Signup failed");
+      }
+    });
+  };
+
+  // signup form with submit button
+  return (
+    /*#__PURE__*/
+    // handleSubmit is the callback of onSubmit, tells the login API to validate user and password
+    React.createElement("form", {
+      onSubmit: handleSubmit
+    }, /*#__PURE__*/React.createElement("label", null, "Username:", /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      value: username,
+      onChange: function onChange(e) {
+        return setUsername(e.target.value);
+      },
+      required: true
+    })), /*#__PURE__*/React.createElement("label", null, "Password:", /*#__PURE__*/React.createElement("input", {
+      type: "password",
+      value: password,
+      onChange: function onChange(e) {
+        return setPassword(e.target.value);
+      },
+      required: true
+    })), /*#__PURE__*/React.createElement("label", null, "Email:", /*#__PURE__*/React.createElement("input", {
+      type: "email",
+      value: email,
+      onChange: function onChange(e) {
+        return setEmail(e.target.value);
+      },
+      required: true
+    })), /*#__PURE__*/React.createElement("label", null, "Birthday:", /*#__PURE__*/React.createElement("input", {
+      type: "date",
+      value: birthday,
+      onChange: function onChange(e) {
+        return setBirthday(e.target.value);
+      },
+      required: true
+    })), /*#__PURE__*/React.createElement("button", {
+      type: "submit"
+    }, "Submit"))
+  );
+};
+exports.SignupView = SignupView;
 },{"react":"../node_modules/react/index.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
@@ -28991,126 +29196,133 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.MainView = void 0;
-var _react = _interopRequireDefault(require("react"));
+var _react = require("react");
 var _movieCard = require("../movie-card/movie-card");
 var _movieView = require("../movie-view/movie-view");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-// export makes the new component usable by others, the class indicates that the component is a class component and not a function while MainView is the new components name . extends React.component uses generic react component template and creates the MainView Component
-var MainView = /*#__PURE__*/function (_React$Component) {
-  _inherits(MainView, _React$Component);
-  var _super = _createSuper(MainView);
-  function MainView() {
-    var _this;
-    _classCallCheck(this, MainView);
-    // React uses this constructor method to create the component
-    _this = _super.call(this); // it means call the constructor of the parent class i.e the class called after the extends keyword (React.Component)
-    _this.state = {
-      // the MainView state is initialized
-      movies: [{
-        _id: "63bb8506fd5805dcd9b84909",
-        Title: "Silence of the Lambs",
-        Description: "A young FBI cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another terrible serial killer.",
-        Genre: {
-          Name: "Thriller",
-          Description: "Thriller film, also known as suspense film or suspense thriller, is a broad film genre that involves excitement and suspense in the audience"
-        },
-        Director: {
-          Name: "Jonathan Demme",
-          Bio: "Robert Jonathan Demme was an American producer and screenwriter.",
-          Birth: "1944",
-          Death: "2017"
-        },
-        ImagePath: "https://64.media.tumblr.com/3fcb277e8c2d9b0850072ccc63db31cf/tumblr_inline_psxggjQLTL1rharm7_500.png",
-        Featured: true
-      }, {
-        _id: "63bb88d1fd5805dcd9b8490d",
-        Title: "The Interstellar",
-        Description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanit`s survival",
-        Genre: {
-          Name: "science fiction",
-          Description: "science fiction is a genre of fiction in which the stories often tell about science and technology of the future"
-        },
-        Director: {
-          Name: "Christopher Nolan",
-          Bio: "Best known for his cerebral, often nonlinear, storytelling, acclaimed writer-director Christopher Nolan was born on July 30, 1970, in London, England. Over the course of 15 years of filmmaking, Nolan has gone from low-budget independent films to working on some of the biggest blockbusters ever made.",
-          Birth: "1970"
-        },
-        ImagePath: "https://m.media-amazon.com/images/M/MV5BZDRhNjNlNDItNDAzNy00NjVmLWFiYTgtZGE5MGNjMWY2OGM5XkEyXkFqcGdeQXVyMTE0MzQwMjgz._V1_QL75_UX500_CR0,0,500,281_.jpg",
-        Featured: true
-      }, {
-        _id: "63bb89f9fd5805dcd9b8490e",
-        Title: "Joker",
-        Description: "A mentally troubled stand-up comedian embarks on a downward spiral that leads to the creation of an iconic villain.",
-        Genre: {
-          Name: "Thriller",
-          Description: "Films that evoke excitement and suspense in the audience. The suspense element found in most film`s plots is particularly exploited by the filmmaker in this genre. Tension is created by delaying what the audience sees as inevitable, and is built through situations that are menacing or where escape seems impossible."
-        },
-        Director: {
-          Name: "Todd Phillips",
-          Bio: " is an American film director, producer, and screenwriter. He began his career in 1993 and directed films in the 2000s such as Road Trip, Old School, Starsky & Hutch, and School for Scoundrels.",
-          Birth: "1993"
-        },
-        ImagePath: "https://m.media-amazon.com/images/M/MV5BMGQ1ZGZmNTAtM2MyYi00NmZhLTkwYmYtNTNlZDRhMzU2ZTgwXkEyXkFqcGdeQW1yb3NzZXI@._V1_QL75_UX500_CR0,0,500,281_.jpg",
-        Featured: true
-      }]
-    };
-    return _this;
-  }
-  _createClass(MainView, [{
-    key: "setSelectedMovie",
-    value: function setSelectedMovie(newSelectedMovie) {
-      this.setState({
-        selectedMovie: newSelectedMovie
+var _loginView = require("../login-view/login-view");
+var _signupView = require("../signup-view/signup-view");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+var MainView = function MainView() {
+  var storedUser = JSON.parse(localStorage.getItem("user"));
+  var storedToken = localStorage.getItem("token");
+  var _useState = (0, _react.useState)(storedUser ? storedUser : null),
+    _useState2 = _slicedToArray(_useState, 2),
+    user = _useState2[0],
+    setUser = _useState2[1];
+  var _useState3 = (0, _react.useState)(storedToken ? storedToken : null),
+    _useState4 = _slicedToArray(_useState3, 2),
+    token = _useState4[0],
+    setToken = _useState4[1];
+  var _useState5 = (0, _react.useState)([]),
+    _useState6 = _slicedToArray(_useState5, 2),
+    movies = _useState6[0],
+    setMovies = _useState6[1];
+  var _useState7 = (0, _react.useState)(null),
+    _useState8 = _slicedToArray(_useState7, 2),
+    selectedMovie = _useState8[0],
+    setSelectedMovie = _useState8[1];
+  var _useState9 = (0, _react.useState)(false),
+    _useState10 = _slicedToArray(_useState9, 2),
+    loading = _useState10[0],
+    setLoading = _useState10[1];
+
+  // useEffect hook allows React to perform side effects in component e.g fetching data
+  (0, _react.useEffect)(function () {
+    if (!token) {
+      return;
+    }
+    // set loading before sending API request
+    setLoading(true);
+    fetch("https://myflix-bjxg.onrender.com/login", "http://localhost:8080/login", {
+      headers: {
+        Authorization: "Bearer ".concat(token)
+      }
+    }).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      // stops loading after response received
+      setLoading(false);
+      console.log('data', data);
+      var moviesFromApi = data.map(function (movie) {
+        return {
+          // value names match to API database
+          id: movie._id,
+          title: movie.Title,
+          image: movie.ImagePath,
+          description: movie.Description,
+          genre: movie.Genre.Name,
+          director: movie.Director.Name,
+          release: movie.Release
+        };
       });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-      var _this$state = this.state,
-        movies = _this$state.movies,
-        selectedMovie = _this$state.selectedMovie;
+      setMovies(moviesFromApi);
+    });
+  }, [token]);
 
-      //if (selectedMovie) return <MovieView movie={selectedMovie} />;
+  // user must first either login or signup
+  if (!user) {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_loginView.LoginView, {
+      onLoggedIn: function onLoggedIn(user, token) {
+        setUser(user);
+        setToken(token);
+      }
+    }), "or", /*#__PURE__*/React.createElement(_signupView.SignupView, null));
+  }
 
-      if (movies.length === 0) return /*#__PURE__*/_react.default.createElement("div", {
-        className: "main-view"
-      }, "The list is empty!");
-      return /*#__PURE__*/_react.default.createElement("div", {
-        className: "main-view"
-      }, selectedMovie ? /*#__PURE__*/_react.default.createElement(_movieView.MovieView, {
-        movie: selectedMovie,
-        onBackClick: function onBackClick(newSelectedMovie) {
-          _this2.setSelectedMovie(newSelectedMovie);
+  // displays movie-view when movie is selected (clicked)
+  if (selectedMovie) {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        setUser(null);
+        setToken(null);
+        localStorage.clear();
+      }
+    }, " Logout"), /*#__PURE__*/React.createElement(_movieView.MovieView, {
+      movie: selectedMovie,
+      onBackClick: function onBackClick() {
+        return setSelectedMovie(null);
+      }
+    }));
+  }
+
+  // displays text message if list of movies is empty
+  if (movies.length === 0) {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        setUser(null);
+        setToken(null);
+        localStorage.clear();
+      }
+    }, " Logout"), /*#__PURE__*/React.createElement("div", null, "The list is empty!"));
+  }
+
+  // displays movie-card with logout button, if user does not select a movie 
+  return (
+    // conditional rendering for loading statment
+    loading ? /*#__PURE__*/React.createElement("p", null, "Loading...") : !movies || !movies.length ? /*#__PURE__*/React.createElement("p", null, "No movies found") : /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        setUser(null);
+        setToken(null);
+        localStorage.clear();
+      }
+    }, " Logout"), movies.map(function (movie) {
+      return /*#__PURE__*/React.createElement(_movieCard.MovieCard, {
+        key: movie._id,
+        movie: movie,
+        onMovieClick: function onMovieClick(newSelectedMovie) {
+          setSelectedMovie(newSelectedMovie);
         }
-      }) : movies.map(function (movie) {
-        return /*#__PURE__*/_react.default.createElement(_movieCard.MovieCard, {
-          key: movie._id,
-          movie: movie,
-          onMovieClick: function onMovieClick(movie) {
-            _this2.setSelectedMovie(movie);
-          }
-        });
-      }));
-    }
-  }]);
-  return MainView;
-}(_react.default.Component);
+      });
+    }))
+  );
+};
 exports.MainView = MainView;
-},{"react":"../node_modules/react/index.js","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../signup-view/signup-view":"components/signup-view/signup-view.jsx"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
   if (!bundleURL) {
@@ -29168,45 +29380,23 @@ module.hot.accept(reloadCSS);
 },{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.jsx":[function(require,module,exports) {
 "use strict";
 
-var _react = _interopRequireDefault(require("react"));
-var _reactDom = _interopRequireDefault(require("react-dom"));
+var _client = require("react-dom/client");
 var _mainView = require("./components/main-view/main-view");
 require("./index.scss");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+// Import statement to indicate that you need to bundle `./index.scss`
+
 // Main component (will eventually use all the others)
-var MyFlixApplication = /*#__PURE__*/function (_React$Component) {
-  _inherits(MyFlixApplication, _React$Component);
-  var _super = _createSuper(MyFlixApplication);
-  function MyFlixApplication() {
-    _classCallCheck(this, MyFlixApplication);
-    return _super.apply(this, arguments);
-  }
-  _createClass(MyFlixApplication, [{
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/_react.default.createElement(_mainView.MainView, null);
-    }
-  }]);
-  return MyFlixApplication;
-}(_react.default.Component); // Finds the root of your app
-var container = document.getElementsByClassName("app-container")[0];
+var MyFlixApplication = function MyFlixApplication() {
+  return /*#__PURE__*/React.createElement(_mainView.MainView, null);
+};
+
+// Finds the root of your app
+var container = document.querySelector("#root");
+var root = (0, _client.createRoot)(container);
 
 // Tells React to render your app in the root DOM element
-_reactDom.default.render(_react.default.createElement(MyFlixApplication), container);
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/main-view/main-view":"components/main-view/main-view.jsx","./index.scss":"index.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+root.render( /*#__PURE__*/React.createElement(MyFlixApplication, null));
+},{"react-dom/client":"../node_modules/react-dom/client.js","./components/main-view/main-view":"components/main-view/main-view.jsx","./index.scss":"index.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -29231,7 +29421,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52265" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60436" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
