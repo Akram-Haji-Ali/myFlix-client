@@ -27185,7 +27185,7 @@ const MainView = ()=>{
         if (!token) return;
         // set loading before sending API request
         setLoading(true);
-        fetch("https://myflix-bjxg.onrender.com/movies", "http://localhost:8080/movies", {
+        fetch("https://myflix-bjxg.onrender.com/movies", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -46511,7 +46511,7 @@ const LoginView = ({ onLoggedIn  })=>{
             Username: username,
             Password: password
         };
-        fetch("https://myflix-bjxg.onrender.com/login", "http://localhost:8080/login", {
+        fetch("https://myflix-bjxg.onrender.com/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -46643,7 +46643,7 @@ const SignupView = ()=>{
             Email: email,
             Birthday: birthday
         };
-        fetch("https://myflix-bjxg.onrender.com/users", "http://localhost:8080/users", {
+        fetch("https://myflix-bjxg.onrender.com/users", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
