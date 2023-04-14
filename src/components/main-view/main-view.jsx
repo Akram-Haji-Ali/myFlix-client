@@ -22,7 +22,7 @@ export const MainView = () => {
     }
     // set loading before sending API request
     setLoading(true);
-    fetch("https://myflix-bjxg.onrender.com/movies", "http://localhost:8080/movies", {
+    fetch("https://myflix-bjxg.onrender.com/movies", {
       headers: {Authorization: `Bearer ${token}`}
     })
       .then((response) => response.json())
