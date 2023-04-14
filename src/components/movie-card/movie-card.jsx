@@ -1,51 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Button, Card, Row, Col} from "react-bootstrap";
-import {MainView}  from "../main-view/main-view";
+import { Card, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-export const MovieCard = ({ movie, onMovieClick }) => {
-  return (
-    <Card
-      onClick={() => {
-        onMovieClick(movie);
-      }}
-      className='h-100'
-    >
-      <Row className='h-50'>
-        <Col className='h-100 text-center mt-3'>
-          <Card.Img
-            variant='top'
-            src={movie.image}
-            className='img-fluid h-100 w-auto movie-card-img'
-          />
-        </Col>
-      </Row>
+export const MovieCard = ({ movie }) => {
+    return (
+        <Card className="h-100" style={{ border: "none" }}>
+            <Card.Img variant="top" src={movie.image} />
+            <Card.Body className="h-100 d-flex flex-column">
+                <Card.Title>{movie.title}</Card.Title>
+                <Link to={`/movies/${encodeURIComponent(movie.id)}`}  className="mt-auto">
+                    <Button variant="primary">Open</Button>
+                </Link>
+            </Card.Body>
+        </Card>
+    );
+}
 
-      <Card.Body className='d-flex flex-column'>
-        <Card.Title className='mt-2'>{movie.title}</Card.Title>
-
-        <Card.Text className='mt-3'>{movie.description}</Card.Text>
-        <div className='mt-auto text-end'>
-          <Button variant='secondary' size='sm' className='mt-auto'>
-            Details
-          </Button>
-        </div>
-      </Card.Body>
-    </Card>
-  );
+MovieCard.propTypes = {
+  movie: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+  }).isRequired
 };
-  
-  MovieCard.propTypes = {
-    movie: PropTypes.shape({
-        
-      director: PropTypes.shape({
-          Name: PropTypes.string.isRequired,
-        }),
-      genre: PropTypes.shape({
-        Name: PropTypes.string.isRequired
-      }),
-        title: PropTypes.string.isRequired,
-        image: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired
-    }).isRequired, onMovieClick: PropTypes.func.isRequired
-  };

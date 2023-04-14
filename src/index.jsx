@@ -1,21 +1,16 @@
-import {createRoot} from "react-dom/client";
-import {MainView} from "./components/main-view/main-view";
-import "bootstrap/dist/css/bootstrap.min.css";
-import {Container} from "react-bootstrap";
-import './index.scss';
+import { createRoot } from "react-dom/client";
+import { MainView } from "./components/main-view/main-view"
+import "./index.scss"; // To indicate to bundle it
+import { Container } from "react-bootstrap";
 
-//main component
-const App = () => { 
-    return (
-        <Container style={{border:"2px solid black"}}>
-          <MainView />
-        </Container>
-      );
-    };    
+// Main component
+const MyCinemaApplication = () => {
+    return (<Container><MainView /></Container>);
+};
 
-//finds root of app
-const container = document.querySelector('#root');
+// Find root of app
+const container = document.querySelector("#root");
 const root = createRoot(container);
 
-//tells React to render app in root DOM element
-root.render(<App />);
+// Render app in the root DO element
+root.render(<MyCinemaApplication />);
