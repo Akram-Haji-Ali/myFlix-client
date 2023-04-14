@@ -20,7 +20,7 @@ export const SignupView = () => {
       Birthday: birthday
     };
 
-    fetch("https://myflix-bjxg.onrender.com/users", "http://localhost:8080/users", {
+    fetch("https://myflix-bjxg.onrender.com/users",{
       method: "POST",
       body: JSON.stringify(data),
       headers: {
