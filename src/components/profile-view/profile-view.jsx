@@ -50,7 +50,7 @@ export const ProfileView = ({ user, token, movies, onLoggedOut, updateUser }) =>
 
     const deleteAccount = () => {
         console.log("doin")
-        fetch(`https://mycinema.herokuapp.com/users/${user.Username}`, {
+        fetch(`https://myflix-bjxg.onrender.com/users/${user.Username}`, {
             method: "DELETE",
             headers: { Authorization: `Bearer ${token}` }
         })
