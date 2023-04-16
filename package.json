@@ -31,6 +31,6 @@
     "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.8.1"
+    "parcel-bundler": "^1.12.5"
   }
 }
